@@ -11,6 +11,9 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <limits>
+#include <array>
+#include <bitset>
 
 template<typename T>
 void print(const std::vector<T> &arr){
