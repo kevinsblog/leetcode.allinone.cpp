@@ -30,7 +30,55 @@ ListNode* deleteDuplicates(ListNode* head) {
 }
 
 //143. Reorder List
-void reorderList(ListNode* head) {
+// void reorderList(ListNode* head) {
+//     auto reverseList = [](ListNode* head){
+//         ListNode *prev = nullptr, *curr = head, *next = nullptr;
+//         while(curr != nullptr){
+//             next = curr->next;
+//             curr->next = prev;
+//             prev = curr;
+//             curr = next;
+//         }
+//         return prev;
+//     };
+
+//     int len = 0;
+//     auto cur = head;
+//     // get the length of list
+//     while(cur != nullptr){
+//         len++;
+//         cur = cur->next;
+//     }
+
+//     // split the list into two
+//     int left_len = len % 2 ? len/2 + 1 : len/2;
+//     auto left = head, right = head;
+//     while(left_len--){
+//         right = right->next;
+//     }
+//     // reverse the second list
+//     right = reverseList(right);
+
+//     //combine the two lists
+//     ListNode dummy(0);
+//     dummy.next = left;
+//     dummy.next->next = right;
+//     left = left->next;
+//     right = right->next;
+//     auto prev = dummy.next->next;
+//     while(left && right){
+//         prev->next = left;
+//         prev->next->next = right;
+//         left = left->next;
+//         right = right->next;
+//         prev = prev->next->next;    
+//     }
+
+//     prev->next = left != nullptr ? left : right;
+//     head = dummy.next;
+// }
+
+void reorderList(ListNode* head){
     auto reverseList = [](ListNode* head){
         ListNode *prev = nullptr, *curr = head, *next = nullptr;
         while(curr != nullptr){
@@ -40,40 +88,25 @@ void reorderList(ListNode* head) {
             curr = next;
         }
         return prev;
-    };
+    };    
 
-    int len = 0;
-    auto cur = head;
-    // get the length of list
-    while(cur != nullptr){
-        len++;
-        cur = cur->next;
+    if(head == nullptr || head->next == nullptr || head->next->next == nullptr){
+        return;
+    }
+    ListNode *fast = head, *slow = head;
+    while(fast->next != nullptr && fast->next->next != nullptr){
+        fast = fast->next->next;
+        slow = slow->next;
     }
 
-    // split the list into two
-    int left_len = len % 2 ? len/2 + 1 : len/2;
-    auto left = head, right = head;
-    while(left_len--){
-        right = right->next;
+    auto mid = slow->next;
+    slow->next = nullptr;
+    mid = reverseList(mid);
+    while(head && mid){
+        auto next = head->next;
+        head->next = mid;
+        mid = mid->next;
+        head->next->next = next;
+        head = next;
     }
-    // reverse the second list
-    right = reverseList(right);
-
-    //combine the two lists
-    ListNode dummy(0);
-    dummy.next = left;
-    dummy.next->next = right;
-    left = left->next;
-    right = right->next;
-    auto prev = dummy.next->next;
-    while(left && right){
-        prev->next = left;
-        prev->next->next = right;
-        left = left->next;
-        right = right->next;
-        prev = prev->next->next;    
-    }
-
-    prev->next = left != nullptr ? left : right;
-    head = dummy.next;
 }

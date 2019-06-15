@@ -128,3 +128,80 @@ vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
 
     return move(ans);
 }
+
+//93. Restore IP Addresses
+void restoreIpAddressesDFS(const string &s, int start, vector<int> &path, vector<string> &ans){
+    if(start == s.size()){
+        if(path.size() == 4){
+            string ip;
+            for(int i = 0; i < path.size(); i++){
+                ip += to_string(path[i]);
+                if(i != path.size() - 1)
+                    ip += ".";
+            }
+            ans.push_back(ip);
+        }
+        return;
+    }
+
+    if(s.size() - start < 4 - path.size())
+        return;
+
+    if(s.size() - start > 4 - path.size()*3)
+        return;
+
+    int num = 0;
+    for(int i = start; i < start + 3; i++){
+        if(i >= s.size())
+            break;
+
+        int res = num*10 + (s[i] - '0');
+        if(res > 255 || res < 0)
+            break;
+
+        path.push_back(res);
+        restoreIpAddressesDFS(s, i + 1, path, ans);
+        path.pop_back();
+        num = res;
+    }
+}
+
+vector<string> restoreIpAddresses(string s) {
+    vector<string> ans;
+    vector<int> ip;
+    restoreIpAddressesDFS(s, 0, ip, ans);
+    return move(ans);
+}
+
+//91. Decode Ways
+void numDecodingsDFS(const string &s, int start, vector<char> &path, 
+                vector<vector<char>> &ans){
+    if(start == s.size()){
+        ans.push_back(path);
+        return;
+    }
+
+    int num = 0;
+    for(int i = start; i < start + 2; i++){
+        int res = num*10 + s[i] - '0';
+        if(res < 1 || res > 26){
+            break;
+        }
+
+        path.push_back('A' + res);
+        numDecodingsDFS(s, i+1, path, ans);
+        path.pop_back();
+
+        num = res;
+        if(num == 0){
+            break;
+        }
+    }
+}
+
+int numDecodings(string s) {
+    vector<vector<char>> ans;
+    vector<char> path;
+    numDecodingsDFS(s, 0, path, ans);
+    return ans.size();
+}
