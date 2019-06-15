@@ -23,4 +23,10 @@ void print(const std::vector<T> &arr){
     std::cout << std::endl;
 }
 
+ struct ListNode {
+      int val;
+      ListNode *next;
+      ListNode(int x) : val(x), next(NULL) {}
+};
+
 #endif
