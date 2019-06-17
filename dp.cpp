@@ -27,3 +27,31 @@ int minPathSum(vector<vector<int>>& grid) {
 
     return costs[row-1][col-1];
 }
+
+//120. Triangle
+// int minimumTotal(vector<vector<int>>& triangle) {
+//     vector<vector<int>> minPath = triangle;
+//     int n = triangle.size();
+
+//     for(int i = 1; i < n; i++){ //the ith layer
+//         for(int j = 0; j <= i; j++){ //all node in the ith layer
+//             int first = j == 0 ? INT_MAX : minPath[i-1][j],
+//                 second = j == i ? INT_MAX : minPath[i-1][j-1];
+//             minPath[i][j] = min(first, second) + triangle[i][j];
+//         }
+//     }
+
+//     return *max_element(minPath[n-1].begin(), minPath[n-1].end());
+// }
+
+int minimumTotal(vector<vector<int>>& triangle) {
+    int n = triangle.size();
+    int m = triangle[n-1].size();
+    vector<int> dp = triangle[n-1];
+    for(int i = n - 2; i >= 0; i--){
+        for(int j = 0; j < m; j++){
+            dp[j] = min(dp[j], dp[j+1]) + triangle[i][j];
+        }
+    }
+    return dp[0];
+}
