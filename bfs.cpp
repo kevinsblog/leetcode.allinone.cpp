@@ -159,3 +159,58 @@ void solve(vector<vector<char>>& board) {
 
     return;
 }
+
+//200. Number of Islands
+int numIslands(vector<vector<char>>& grid) {
+    int m = grid.size();
+    if(m == 0){
+        return 0;
+    }
+    int n = grid[0].size();
+
+    const pair<int, int> offset[4] = { {-1, 0}, {1, 0}, {0, -1}, {0, 1} };
+    auto plotGrid = [&](int row, int col, int steps){
+        queue<pair<int, int>> Q;
+        Q.push(pair<int, int>(row, col));
+        while(!Q.empty()){
+            int num = Q.size();
+            while(num-- > 0){
+                pair<int, int> pos = Q.front();
+                Q.pop();
+                for(int i = 0; i < 4; i++){
+                    int x = pos.first + offset[i].first,
+                        y = pos.second + offset[i].second;
+                    if(x < 0 || x >= m || y < 0 || y >= n)
+                        continue;
+                    
+                    if(grid[x][y] != '*')
+                        continue;
+
+                    grid[x][y] = steps + '1';
+                    Q.push(pair<int, int>(x, y));
+                }
+            }
+        }
+    };
+
+    for(auto & row : grid){
+        for(auto & cell : row){
+            if(cell == '1'){
+                cell = '*';
+            }
+        }
+    }
+
+    int steps = 0;
+    for(int i = 0; i < m; i++){
+        for(int j = 0; j < n; j++){
+            if(grid[i][j] != '*')
+                continue;
+
+            plotGrid(i, j, steps);
+            steps++;
+        }
+    }
+
+    return steps;
+}

@@ -30,4 +30,17 @@ void print(const std::vector<T> &arr){
       ListNode(int x) : val(x), next(NULL) {}
 };
 
+class Node {
+public:
+    int val;
+    std::vector<Node*> neighbors;
+
+    Node() {}
+
+    Node(int _val, std::vector<Node*> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+};
+
 #endif

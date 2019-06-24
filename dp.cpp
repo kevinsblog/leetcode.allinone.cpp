@@ -55,3 +55,23 @@ int minimumTotal(vector<vector<int>>& triangle) {
     }
     return dp[0];
 }
+
+//139. Word Break
+bool wordBreak(string s, vector<string>& dict) {
+    vector<bool> dp(s.length() + 1, false);
+    dp[0] = true;
+    //i is the end index of substr, exclude the end element
+    for (int i = 1; i < dp.size(); i++) {
+        //j is the start index of substr
+        for (int j = i - 1; j >= 0; j--) {
+            //if string is valid in index j, and [j:i] is in dict
+            //  dp[i] is also valid
+            if (dp[j] && 
+                find(dict.begin(), dict.end(), s.substr(j, i - j)) != dict.end()) {
+                dp[i] = true;
+                break; 
+            }
+        }
+    }
+    return dp[s.length()];        
+}

@@ -205,3 +205,37 @@ int numDecodings(string s) {
     numDecodingsDFS(s, 0, path, ans);
     return ans.size();
 }
+
+//140
+void WordBreakDFS(const string &s, const set<string> &dict, int start, vector<string> &path, vector<string> &ans){
+    auto makePathStr = [](const vector<string> &path) -> string{
+        if(path.size() == 0) return "";
+        string pathStr = path[0];
+        for(int i = 1; i < path.size(); i++) {
+            pathStr += " " + path[i];
+        }
+        return pathStr;
+    };
+
+    if(start == s.size()){
+        ans.push_back(makePathStr(path));
+        return;
+    }
+
+    for(int i = start; i < s.size(); i++){
+        auto word = s.substr(start, i - start + 1);
+        if(dict.count(word)){
+            path.push_back(word);
+            WordBreakDFS(s, dict, i + 1, path, ans);
+            path.pop_back();
+        }
+    }
+}
+
+vector<string> wordBreak2(string s, vector<string>& wordDict) {
+    vector<string> ans, path;
+    set<string> dict(wordDict.begin(), wordDict.end());
+    WordBreakDFS(s, dict, 0, path, ans);
+    return move(ans);
+}
+
