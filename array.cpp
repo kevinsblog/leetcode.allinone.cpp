@@ -17,3 +17,24 @@ int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
 
     return remain + lack >= 0 ? start : -1;
 }
+
+//1. Two Sum
+vector<int> twoSum(vector<int>& nums, int target) {
+    auto nums_cp = nums;;
+    sort(nums.begin(), nums.end());
+    auto beg = nums.begin(), end = nums.end()-1;
+    while(beg < end){
+        int sum = *beg + *end;
+        if(sum == target){
+            auto first = find(nums_cp.begin(), nums_cp.end(), *beg);
+            auto second = find(first + 1, nums_cp.end(), *end);
+            return vector<int>{first - nums_cp.begin(), second - nums_cp.begin()};
+        }else if (sum < target) {
+            beg++;
+        }else{
+            end--;
+        }
+    }
+
+    return vector<int>{-1, -1};
+}

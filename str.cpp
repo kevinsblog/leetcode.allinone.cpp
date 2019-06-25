@@ -36,3 +36,37 @@ vector<vector<string>> partition(string s) {
     partitionDFS(s, 0, path, ans);
     return move(ans);
 }
+
+//1021. Remove Outermost Parentheses
+string removeOuterParentheses(string S) {
+    stack<char> st;
+    string ans;
+    for(auto & c : S){
+        if(c == ')'){
+            st.pop();
+        }
+        if(!st.empty()){
+            ans += c;
+        }
+        if(c == '('){
+            st.push(c);
+        }
+    }
+    return move(ans);
+}
+
+int uniqueMorseRepresentations(vector<string>& words) {
+    const vector<string> alp_tbl = {".-","-...","-.-.","-..",".","..-.",
+    "--.","....","..",".---","-.-",".-..","--","-.","---",".--.",
+    "--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."};
+    set<string> unique_rep;
+    for(auto & word : words){
+        string rep;
+        for(auto & ch : word){
+            rep += alp_tbl[ch - 'a'];
+        }
+        unique_rep.insert(rep);
+    }
+    return unique_rep.size();
+
+}

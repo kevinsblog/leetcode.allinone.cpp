@@ -15,6 +15,7 @@
 #include <limits>
 #include <array>
 #include <bitset>
+#include <stack>
 
 template<typename T>
 void print(const std::vector<T> &arr){
