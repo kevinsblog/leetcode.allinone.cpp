@@ -90,3 +90,17 @@ int maxProduct(vector<int>& nums) {
 
     return max_val;
 }
+
+int jumpingOnClouds(vector<int> c) {
+    vector<int> dp(c.size(), 0); //min steps needs to jump on i
+    dp[0] = 0;
+    for(int i = 1; i < c.size(); i++){
+        if(c[i] == 1){
+            dp[i] = INT_MAX; //impossible to jump to i
+        }else{
+            int jump2 = i >= 2 ? dp[i-2] : INT_MAX;
+            dp[i] = min(jump2, dp[i-1]) + 1; //jump by 1 step or 2 steps
+        }
+    }
+    return dp.back();
+}

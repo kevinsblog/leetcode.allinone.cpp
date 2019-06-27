@@ -16,6 +16,8 @@
 #include <array>
 #include <bitset>
 #include <stack>
+#include <sstream>
+#include <fstream>
 
 template<typename T>
 void print(const std::vector<T> &arr){

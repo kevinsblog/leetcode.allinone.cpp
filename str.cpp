@@ -68,5 +68,39 @@ int uniqueMorseRepresentations(vector<string>& words) {
         unique_rep.insert(rep);
     }
     return unique_rep.size();
+}
 
+vector<string> tokenize(const string &s, const char &delimiter){
+    vector<string> tokens;
+    stringstream ss(s); //convert string to stream
+    string tmp;
+    //get lines from stream
+    while(getline(ss, tmp, delimiter)){
+        if(!tmp.empty())
+            tokens.push_back(tmp); //save tokens
+    }
+    return move(tokens);
+}
+
+void tokenizeDemo(){
+    string s = "hello world \n hello paopao \n bye bye \n";
+    auto lines = tokenize(s, '\n'); //tokenize by line
+    for(auto & line : lines){ 
+        auto items = tokenize(line, ' '); //by space
+        for(auto & item : items){
+            cout << "|"<< item <<"|"<< endl;
+        }
+    }
+}
+
+void handlingFiles(){
+    fstream file;
+    char text[256];
+    file.open("example.txt", ios::out | ios::in);
+    cout << "write text to file" << endl;
+    cin.getline(text, sizeof(text));
+    file << text << endl; //write
+    file >> text;
+    cout << text << endl;
+    file.close();
 }
