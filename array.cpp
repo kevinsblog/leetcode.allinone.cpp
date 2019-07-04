@@ -90,3 +90,84 @@ long repeatedString(string s, long n) {
     //  compiler would interpert like (a + b) ? xx ? xxx;
     return times*occ + (remain > 0 ? freq[remain] : 0 );
 }
+
+void * memcpy_(void *dst, void *src, size_t cnt){
+    assert(dst != nullptr && src != nullptr);
+    unsigned char *pdst = (unsigned char *)dst;
+    const unsigned char *psrc = (const unsigned char *)src;
+
+    //make sure no overlap between two memory region
+    assert(!(psrc <= pdst && pdst < psrc + cnt) && 
+            !(pdst <= psrc && psrc < pdst + cnt));
+
+    while(cnt--){
+        *pdst++ = *psrc++;
+    }
+
+    return dst;
+}
+
+void memcpyTest(){
+    char src[256] = "hello my friend", dst[256];
+    cout << (char *)memcpy_(dst, src, strlen(src)+1)<<endl;
+}
+
+void *memmove(void *dst, void *src, size_t cnt){
+    void *ret = dst;
+    unsigned char *pdst = (unsigned char *)dst;
+    const unsigned char *psrc = (const unsigned char *)src;
+
+    if(pdst < psrc || pdst >= (psrc + cnt)){ //if overlap not exists
+        //copy from start to end
+        while(cnt--){
+            *pdst++ = *psrc++;
+        }
+    }else{ //if overlap exists
+        pdst += cnt - 1;
+        psrc += cnt - 1;
+        //copy from end to start
+        while(cnt--){
+            *pdst-- = *psrc--;
+        }
+    }
+
+    return ret;
+}
+
+void memmoveTest(){
+    char buf[256] = "hello my friend";
+    char *dst = (char *)memmove(buf + 10, buf, strlen(buf)+1);
+    printf("%p->%p: %s\n", buf, dst, dst);
+}
+
+void calcAllPermutation(string &s, int from, int to, vector<string> &ans){
+    if(to <= 1){ //invalid pos
+        return ;
+    }else if(from == to){ //valid string found
+        ans.push_back(s.substr(0, to + 1));
+    }else{
+        //permutation for the rest string
+        for(int j = from; j <= to; j++){
+            swap(s[j], s[from]);
+            calcAllPermutation(s, from + 1, to, ans);
+            swap(s[j], s[from]);
+        }
+    }
+}
+
+void calcAllPermutation2(string &s, vector<string> &ans){
+    do{
+        ans.push_back(s);
+    }while(next_permutation(s.begin(), s.end()));
+    return;
+}
+
+void calcAllPermutationTest(){
+    string s = "abc";
+    vector<string> ans;
+    calcAllPermutation(s, 0, s.size()-1, ans);
+    print(ans);
+    ans.clear();
+    calcAllPermutation2(s, ans);
+    print(ans);
+}
