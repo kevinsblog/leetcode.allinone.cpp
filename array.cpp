@@ -216,6 +216,7 @@ bool calcPremute(vector<int>& nums, int n){
 
 vector<vector<int>> permute(vector<int>& nums) {
     vector<vector<int>> ans;
+    sort(nums.begin(), nums.end());
     do{
         ans.push_back(nums);
     }while(calcPremute(nums, nums.size()));
