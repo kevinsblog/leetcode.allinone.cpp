@@ -162,12 +162,62 @@ void calcAllPermutation2(string &s, vector<string> &ans){
     return;
 }
 
+bool calcAllPermutation3Helper(string &s, int num){
+    int i = 0;
+    //find the pos i of last ascending element
+    for(i = num - 2; i >= 0 && s[i] >= s[i+1]; i--){}
+    if(i < 0){
+        return false;
+    }
+
+    int k = 0;
+    //find the last pos k greater than s[i]
+    for(k = num - 1; k > i && s[k] <= s[i]; k--){}
+    swap(s[i], s[k]);
+    reverse(s.begin() + i + 1, s.begin() + num);
+    return true;
+}
+
+void calcAllPermutation3(string &s, vector<string> &ans){
+    do{
+        ans.push_back(s);
+    }while(calcAllPermutation3Helper(s, s.size()));
+}
+
 void calcAllPermutationTest(){
     string s = "abc";
     vector<string> ans;
     calcAllPermutation(s, 0, s.size()-1, ans);
     print(ans);
+
     ans.clear();
     calcAllPermutation2(s, ans);
     print(ans);
+
+    s = "abc";
+    ans.clear();
+    calcAllPermutation3(s, ans);
+    print(ans);
+}
+
+bool calcPremute(vector<int>& nums, int n){
+    int i = 0;
+    for(i = n - 2; i >= 0 && nums[i] >= nums[i+1]; i--){}
+    if(i < 0){
+        return false;
+    }
+
+    int k = 0;
+    for(k = n - 1; k > i && nums[k] <= nums[i]; k--){}
+    swap(nums[i], nums[k]);
+    reverse(nums.begin() + i + 1, nums.begin() + n);
+    return true;
+}
+
+vector<vector<int>> permute(vector<int>& nums) {
+    vector<vector<int>> ans;
+    do{
+        ans.push_back(nums);
+    }while(calcPremute(nums, nums.size()));
+    return move(ans);
 }
