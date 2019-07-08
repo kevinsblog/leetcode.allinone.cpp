@@ -6,6 +6,8 @@ extern void handlingFiles();
 extern void memcpyTest();
 extern void memmoveTest();
 extern void calcAllPermutationTest();
+extern void sizeTest();
+extern void strTest();
 int main(){
     ladderLength();
     tokenizeDemo();
@@ -13,5 +15,7 @@ int main(){
     memcpyTest();
     memmoveTest();
     calcAllPermutationTest();
+    sizeTest();
+    strTest();
     return 0;
 }

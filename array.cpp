@@ -222,3 +222,43 @@ vector<vector<int>> permute(vector<int>& nums) {
     }while(calcPremute(nums, nums.size()));
     return move(ans);
 }
+
+class A{
+
+};
+
+class B{
+    B(){}
+    ~B(){}
+};
+
+class C{
+    C(){}
+    virtual ~C(){}
+};
+
+class D{
+    D(){}
+    ~D(){}
+    int d;
+};
+class E{
+    E(){}
+    E(const E &ee){e = ee.e;}
+    ~E(){}
+    long e;
+};
+
+int GetSize(int data[]){
+    return sizeof(data);
+}
+
+void sizeTest(){
+    cout << "A "<< "B "<< "C "<<"D "<<"E "<<endl;
+    cout << sizeof(A) << " " << sizeof(B) << " " <<
+        sizeof(C) << " " <<sizeof(D) << " "<<sizeof(E)<<endl;
+
+    int data1[] = {1, 2, 3, 4, 5};
+    int *data2 = data1;
+    cout << sizeof(data1) << " "<<GetSize(data1)<<" "<<sizeof(data2)<<endl;
+}

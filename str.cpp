@@ -104,3 +104,69 @@ void handlingFiles(){
     cout << text << endl;
     file.close();
 }
+
+class CMString{
+public:
+    CMString(const char * pd = NULL):m_pd(NULL){
+        if(pd == NULL) return;
+        m_pd = new char[strlen(pd)+1];
+        strcpy(m_pd, pd);
+    }
+    CMString(const CMString &s) = delete;
+    CMString & operator=(const CMString &s){
+        if(this != &s){
+            CMString tmp(s.m_pd);
+
+            //exchange internal data and release the old data
+            //  through tmp executing deconstructor 
+            char *pTmp = tmp.m_pd;
+            tmp.m_pd = m_pd;
+            m_pd = pTmp;
+        }
+
+        return *this;
+    }
+    ~CMString(){
+        if(m_pd)
+            delete []m_pd;
+    }
+    char * get() {
+        return m_pd;
+    }
+
+private:
+    char * m_pd;
+};
+
+mutex       m_lock;
+class Singleton1{
+public:
+    static Singleton1 *get(){
+        
+        if(m_p == nullptr){
+            m_lock.lock();
+            if(m_p == nullptr)
+                m_p = new Singleton1(0);
+            m_lock.unlock();
+        }
+        
+        return m_p;
+    }
+    void SetNum(int n){num = n;}
+    int GetNum() const {return num;}
+private:
+    Singleton1(int n):num(n){} //other people cannot create instance
+    static Singleton1 *m_p;
+    int num;
+};
+Singleton1 *Singleton1::m_p = nullptr;
+
+void strTest(){
+    CMString s1((char *)"string");
+    CMString s2((char *)"str");
+    s2 = s1;
+    cout << s2.get() << endl;
+
+    Singleton1::get()->SetNum(10);
+    cout << Singleton1::get()->GetNum() << endl;
+}
