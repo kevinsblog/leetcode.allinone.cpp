@@ -169,4 +169,15 @@ void strTest(){
 
     Singleton1::get()->SetNum(10);
     cout << Singleton1::get()->GetNum() << endl;
+
+    printf("%d, %o, %x\n", 10, 10, 10);
+    printf("%ld\n", INT_MAX + 1);
+    printf("%10d\n", 236);
+    printf("%u\n", -2);
+    printf("%3.2f\n", -34.5678);
+    printf("%s\n", "ok");
+    printf("%x, %X, %#x, %#X\n", 47, 47, 47, 47);
+    printf("\\n\n");
+    printf("%d\n", '\\0');
+    printf("%zd\n", -10);
 }
